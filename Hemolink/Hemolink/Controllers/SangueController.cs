@@ -18,11 +18,11 @@ namespace Hemolink.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                tipo,
-                nivel_atual,
-                prioritario,
-                data_atualizacao
+            string query = @" select
+                tipo as ""tipo"",
+                nivel_atual as ""nivel_atual"",
+                prioritario as ""prioritario"",
+                ultima_atualizacao as ""ultima_atualizacao""
                 from sangue
                ";
             DataTable table = new DataTable();
