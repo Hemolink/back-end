@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Development\\hemolink-back-end\\Hemolink\\Hemolink\\Hemolink.csproj": {}
+    "C:\\Development\\Testes\\Hemolink\\Hemolink\\Hemolink.csproj": {}
   },
   "projects": {
-    "C:\\Development\\hemolink-back-end\\Hemolink\\Hemolink\\Hemolink.csproj": {
+    "C:\\Development\\Testes\\Hemolink\\Hemolink\\Hemolink.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Development\\hemolink-back-end\\Hemolink\\Hemolink\\Hemolink.csproj",
+        "projectUniqueName": "C:\\Development\\Testes\\Hemolink\\Hemolink\\Hemolink.csproj",
         "projectName": "Hemolink",
-        "projectPath": "C:\\Development\\hemolink-back-end\\Hemolink\\Hemolink\\Hemolink.csproj",
+        "projectPath": "C:\\Development\\Testes\\Hemolink\\Hemolink\\Hemolink.csproj",
         "packagesPath": "C:\\Users\\Samuel Guedes\\.nuget\\packages\\",
-        "outputPath": "C:\\Development\\hemolink-back-end\\Hemolink\\Hemolink\\obj\\",
+        "outputPath": "C:\\Development\\Testes\\Hemolink\\Hemolink\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Samuel Guedes\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,15 +40,17 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
-              "target": "Package",
-              "version": "[6.0.5, )"
-            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.5, )"
             },
-            "Npgsql": {
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.5, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[6.0.4, )"
             },

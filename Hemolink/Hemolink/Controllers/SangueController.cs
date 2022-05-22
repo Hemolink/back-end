@@ -1,47 +1,33 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Npgsql;
-using System.Data;
+﻿using Hemolink.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hemolink.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-
-    public class SangueController : ControllerBase
+    [ApiController]
+    public class SangueController : Controller
     {
-        private readonly IConfiguration _configuration;
-        public SangueController(IConfiguration configuration)
+        private readonly _DbContext _context;
+        public SangueController(_DbContext context)
         {
-            _configuration = configuration;
-        }
+            _context = context;
+        }   
 
         [HttpGet]
-        public JsonResult Get()
+        public async Task<ActionResult<List<Sangue>>> Get()
         {
-            string query = @" select
-                tipo as ""tipo"",
-                nivel_atual as ""nivel_atual"",
-                prioritario as ""prioritario"",
-                ultima_atualizacao as ""ultima_atualizacao""
-                from sangue
-               ";
-            DataTable table = new DataTable();
-            string sqlDataSource = _configuration.GetConnectionString("DefaultConnection");
-            NpgsqlDataReader myReader;
-            using (NpgsqlConnection myCon = new NpgsqlConnection(sqlDataSource))
-            {
-                myCon.Open();
-                using(NpgsqlCommand myCommand=new NpgsqlCommand(query, myCon))
-                {
-                    myReader = myCommand.ExecuteReader();
-                    table.Load(myReader);
-
-                    myReader.Close();
-                    myCon.Close();
-                }
-            }
-            return new JsonResult(table);
-
+            return Ok(await _context.sangues.ToListAsync());
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Sangue>> Get(string id)
+        {
+            var sangue = await _context.sangues.FindAsync(id);
+            if (sangue == null)
+                return BadRequest("Blod not found... ");
+            return Ok(sangue);
+        }
+
     }
 }
