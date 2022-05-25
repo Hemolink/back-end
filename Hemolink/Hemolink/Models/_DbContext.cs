@@ -11,6 +11,7 @@ namespace Hemolink.Models
             base.OnModelCreating(builder);
         }
         public DbSet<Sangue> sangues { get; set; }
+        public DbSet<Doador> doador { get; set; }
 
     }
 }
