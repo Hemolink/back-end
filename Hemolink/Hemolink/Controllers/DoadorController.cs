@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hemolink.Models;
 
@@ -11,7 +6,7 @@ namespace Hemolink.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoadorController : ControllerBase
+    public class DoadorController : Controller
     {
         private readonly _DbContext _context;
 
@@ -22,13 +17,13 @@ namespace Hemolink.Controllers
 
         // GET: api/Doador
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Doador>>> Getdoador()
+        public async Task<ActionResult<List<Doador>>> Getdoador()
         {
           if (_context.doador == null)
           {
               return NotFound();
           }
-            return await _context.doador.ToListAsync();
+            return Ok(await _context.doador.ToListAsync());
         }
 
         // GET: api/Doador/5
@@ -52,7 +47,7 @@ namespace Hemolink.Controllers
         // PUT: api/Doador/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDoador(int id, Doador doador)
+        public async Task<ActionResult> PutDoador(int id, Doador doador)
         {
             if (id != doador.IdDoador)
             {
@@ -97,7 +92,7 @@ namespace Hemolink.Controllers
 
         // DELETE: api/Doador/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDoador(int id)
+        public async Task<ActionResult> DeleteDoador(int id)
         {
             if (_context.doador == null)
             {

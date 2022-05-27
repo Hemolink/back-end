@@ -11,7 +11,7 @@ namespace Hemolink.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AgendaController : ControllerBase
+    public class AgendaController : Controller
     {
         private readonly _DbContext _context;
 
@@ -22,7 +22,7 @@ namespace Hemolink.Controllers
 
         // GET: api/Agenda
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Agenda>>> Getagenda()
+        public async Task<ActionResult<List<Agenda>>> Getagenda()
         {
           if (_context.agenda == null)
           {
@@ -52,7 +52,7 @@ namespace Hemolink.Controllers
         // PUT: api/Agenda/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAgenda(int id, Agenda agenda)
+        public async Task<ActionResult> PutAgenda(int id, Agenda agenda)
         {
             if (id != agenda.IdAgendamento)
             {
@@ -97,7 +97,7 @@ namespace Hemolink.Controllers
 
         // DELETE: api/Agenda/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAgenda(int id)
+        public async Task<ActionResult> DeleteAgenda(int id)
         {
             if (_context.agenda == null)
             {

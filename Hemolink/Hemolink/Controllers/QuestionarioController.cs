@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hemolink.Models;
 
@@ -11,7 +6,7 @@ namespace Hemolink.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QuestionarioController : ControllerBase
+    public class QuestionarioController : Controller
     {
         private readonly _DbContext _context;
 
@@ -22,7 +17,7 @@ namespace Hemolink.Controllers
 
         // GET: api/Questionario
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Questionario>>> Getquestionario()
+        public async Task<ActionResult<List<Questionario>>> Getquestionario()
         {
           if (_context.questionario == null)
           {
@@ -52,7 +47,7 @@ namespace Hemolink.Controllers
         // PUT: api/Questionario/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutQuestionario(int id, Questionario questionario)
+        public async Task<ActionResult> PutQuestionario(int id, Questionario questionario)
         {
             if (id != questionario.IdFormulario)
             {
@@ -97,7 +92,7 @@ namespace Hemolink.Controllers
 
         // DELETE: api/Questionario/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuestionario(int id)
+        public async Task<ActionResult> DeleteQuestionario(int id)
         {
             if (_context.questionario == null)
             {

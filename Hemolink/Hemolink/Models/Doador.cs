@@ -8,7 +8,7 @@ namespace Hemolink.Models
         public int IdDoador { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
-        public DateOnly DataNascimento { get; set; }
+        public DateTime DataNascimento { get; set; }
         
         [DataType (DataType.EmailAddress)]
         public string Email { get; set; }
@@ -20,7 +20,7 @@ namespace Hemolink.Models
 
         public int CPF { get; set; }
 
-        public DateOnly UltimaDoacao { set; get; }
+        public DateTime UltimaDoacao { set; get; }
         
         [MaxLength (1)]
         public string Sexo { set; get; }   
