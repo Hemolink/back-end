@@ -16,7 +16,7 @@ namespace Hemolink.Models
         public string Senha { set; get; }
 
         [MaxLength (3)]
-        public string TipoSanguineo { set; get; }
+        public Sangue TipoSanguineo { set; get; }
 
         public int CPF { get; set; }
 

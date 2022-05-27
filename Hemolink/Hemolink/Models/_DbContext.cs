@@ -12,6 +12,8 @@ namespace Hemolink.Models
         }
         public DbSet<Sangue> sangues { get; set; }
         public DbSet<Doador> doador { get; set; }
+        public DbSet<Agenda> agenda { get; set; }
+        public DbSet<Questionario> questionario { get; set; }
 
     }
 }
