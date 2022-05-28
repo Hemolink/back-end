@@ -5,6 +5,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddCors(o => o.AddDefaultPolicy(builder => {
+    builder.AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+}));
+
 builder.Services.AddControllers();
 builder.Services.AddDbContext<_DbContext>(x => x.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -22,6 +28,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
