@@ -78,16 +78,30 @@ namespace Hemolink.Controllers
         // POST: api/Doador
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Doador>> PostDoador(Doador doador)
+        public async Task<ActionResult<Doador>> PostDoador(CreateDoadorDto request)
         {
-          if (_context.doador == null)
-          {
-              return Problem("Entity set '_DbContext.doador'  is null.");
-          }
-            _context.doador.Add(doador);
+            var sangue = await _context.sangues.FindAsync(request.SangueId);
+            if (sangue == null)
+                return NotFound();
+
+            var newDoador = new Doador
+            {
+                Nome = request.Nome,
+                Sobrenome = request.Sobrenome,
+                DataNascimento = request.DataNascimento,
+                Email = request.Email,
+                Senha = request.Senha,
+                Sangue = sangue,
+                SangueId = request.SangueId,
+                CPF = request.CPF,
+                UltimaDoacao = request.UltimaDoacao,
+                Sexo = request.Sexo,
+                Peso = request.Peso
+            };
+            _context.doador.Add(newDoador);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDoador", new { id = doador.IdDoador }, doador);
+            return Ok(await GetDoador(newDoador.IdDoador));
         }
 
         // DELETE: api/Doador/5
