@@ -15,11 +15,11 @@ namespace Hemolink.Models
         public string Email { get; set; }
         
         public string Senha { set; get; }
-        [JsonIgnore]
         public Sangue Sangue { set; get; }
         [MaxLength (3)]
         public string SangueId { set; get; }
-        public int CPF { get; set; }
+        [MaxLength (11)]
+        public string CPF { get; set; }
 
         public DateTime UltimaDoacao { set; get; }
         

@@ -82,7 +82,7 @@ namespace Hemolink.Controllers
         {
             var sangue = await _context.sangues.FindAsync(request.SangueId);
             if (sangue == null)
-                return NotFound();
+                return NotFound("Blood not found...");
 
             var newDoador = new Doador
             {

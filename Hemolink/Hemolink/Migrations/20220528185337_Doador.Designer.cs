@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hemolink.Migrations
 {
     [DbContext(typeof(_DbContext))]
-    [Migration("20220528004921_Doador")]
+    [Migration("20220528185337_Doador")]
     partial class Doador
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,8 +53,10 @@ namespace Hemolink.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdDoador"));
 
-                    b.Property<int>("CPF")
-                        .HasColumnType("integer");
+                    b.Property<string>("CPF")
+                        .IsRequired()
+                        .HasMaxLength(11)
+                        .HasColumnType("character varying(11)");
 
                     b.Property<DateTime>("DataNascimento")
                         .HasColumnType("timestamp with time zone");
