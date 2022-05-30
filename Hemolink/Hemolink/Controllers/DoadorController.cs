@@ -32,13 +32,13 @@ namespace Hemolink.Controllers
         {
           if (_context.doador == null)
           {
-              return NotFound();
+              return NotFound("Doador not found...");
           }
             var doador = await _context.doador.FindAsync(id);
 
             if (doador == null)
             {
-                return NotFound();
+                return NotFound("Doador not found...");
             }
 
             return doador;
@@ -47,11 +47,32 @@ namespace Hemolink.Controllers
         // PUT: api/Doador/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutDoador(int id, Doador doador)
+        public async Task<ActionResult> PutDoador(int id, UpdateDoadorDto request)
         {
+            var sangue = await _context.sangues.FindAsync(request.SangueId);
+            if (sangue == null)
+                return NotFound("Blood not found...");
+
+
+            var doador = new Doador
+            {
+                IdDoador = request.IdDoador,
+                Nome = request.Nome,
+                Sobrenome = request.Sobrenome,
+                DataNascimento = request.DataNascimento,
+                Email = request.Email,
+                Senha = request.Senha,
+                Sangue = sangue,
+                SangueId = request.SangueId,
+                CPF = request.CPF,
+                UltimaDoacao = request.UltimaDoacao,
+                Sexo = request.Sexo,
+                Peso = request.Peso
+            };
+
             if (id != doador.IdDoador)
             {
-                return BadRequest();
+                return BadRequest("Id is not the same on the JSON");
             }
 
             _context.Entry(doador).State = EntityState.Modified;
@@ -64,7 +85,7 @@ namespace Hemolink.Controllers
             {
                 if (!DoadorExists(id))
                 {
-                    return NotFound();
+                    return NotFound("Doador not found...");
                 }
                 else
                 {
@@ -72,7 +93,7 @@ namespace Hemolink.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(doador);
         }
 
         // POST: api/Doador
@@ -110,7 +131,7 @@ namespace Hemolink.Controllers
         {
             if (_context.doador == null)
             {
-                return NotFound();
+                return NotFound("Doador not found...");
             }
             var doador = await _context.doador.FindAsync(id);
             if (doador == null)
@@ -121,7 +142,7 @@ namespace Hemolink.Controllers
             _context.doador.Remove(doador);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Doador deleted successfully...");
         }
 
         private bool DoadorExists(int id)
