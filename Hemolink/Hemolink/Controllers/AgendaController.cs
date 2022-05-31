@@ -26,7 +26,7 @@ namespace Hemolink.Controllers
         {
           if (_context.agenda == null)
           {
-              return NotFound();
+              return NotFound("There is no appointments...");
           }
             return await _context.agenda.ToListAsync();
         }
@@ -37,7 +37,7 @@ namespace Hemolink.Controllers
         {
           if (_context.agenda == null)
           {
-              return NotFound();
+              return NotFound("Appointment not found... ");
           }
             var agenda = await _context.agenda.FindAsync(id);
 
@@ -52,14 +52,29 @@ namespace Hemolink.Controllers
         // PUT: api/Agenda/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<ActionResult> PutAgenda(int id, Agenda agenda)
+        public async Task<ActionResult> PutAgenda(int id, UpdateAgendaDto request)
         {
-            if (id != agenda.IdAgendamento)
+            var doador = await _context.doador.FindAsync(request.DoadorId);
+            if (doador == null)
+                return NotFound("Doador not found...");
+
+
+            var newAgenda = new Agenda
             {
-                return BadRequest();
+                IdAgendamento = request.IdAgendamento,
+                DoadorId = request.DoadorId,
+                Agendamento = request.Agendamento,
+                Doador = doador,
+            };
+
+
+            if (id != newAgenda.IdAgendamento)
+            {
+                return BadRequest($"The id {id} is not the same on the JSON {newAgenda.IdAgendamento}...");
             }
 
-            _context.Entry(agenda).State = EntityState.Modified;
+
+            _context.Entry(newAgenda).State = EntityState.Modified;
 
             try
             {
@@ -69,7 +84,7 @@ namespace Hemolink.Controllers
             {
                 if (!AgendaExists(id))
                 {
-                    return NotFound();
+                    return NotFound("Appointment not found... ");
                 }
                 else
                 {
@@ -77,22 +92,34 @@ namespace Hemolink.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(newAgenda);
         }
 
         // POST: api/Agenda
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Agenda>> PostAgenda(Agenda agenda)
+        public async Task<ActionResult<Agenda>> PostAgenda(CreateAgendaDto request)
         {
-          if (_context.agenda == null)
-          {
-              return Problem("Entity set '_DbContext.agenda'  is null.");
-          }
-            _context.agenda.Add(agenda);
+
+            var doador = await _context.doador.FindAsync(request.DoadorId);
+            if (doador == null)
+                return NotFound("Doador not found...");
+
+            var newAgenda = new Agenda
+            {
+                DoadorId = request.DoadorId,
+                Agendamento = request.Agendamento,
+                Doador = doador,
+            };
+
+            if (_context.agenda == null)
+            {
+                return BadRequest("Agenda can't be null");
+            }
+            _context.agenda.Add(newAgenda);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAgenda", new { id = agenda.IdAgendamento }, agenda);
+            return Ok(newAgenda);
         }
 
         // DELETE: api/Agenda/5
@@ -101,18 +128,18 @@ namespace Hemolink.Controllers
         {
             if (_context.agenda == null)
             {
-                return NotFound();
+                return NotFound("Appointment not found... ");
             }
             var agenda = await _context.agenda.FindAsync(id);
             if (agenda == null)
             {
-                return NotFound();
+                return NotFound("Appointment not found... ");
             }
 
             _context.agenda.Remove(agenda);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok("Appontment succesfully deleted :) ");
         }
 
         private bool AgendaExists(int id)

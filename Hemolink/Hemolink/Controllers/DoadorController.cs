@@ -122,7 +122,7 @@ namespace Hemolink.Controllers
             _context.doador.Add(newDoador);
             await _context.SaveChangesAsync();
 
-            return Ok(await GetDoador(newDoador.IdDoador));
+            return Ok(newDoador);
         }
 
         // DELETE: api/Doador/5
