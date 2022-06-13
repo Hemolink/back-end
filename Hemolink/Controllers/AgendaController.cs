@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hemolink.Models;
+using Hemolink.Data;
+using Hemolink.Data.Dtos.Agenda;
 
 namespace Hemolink.Controllers
 {

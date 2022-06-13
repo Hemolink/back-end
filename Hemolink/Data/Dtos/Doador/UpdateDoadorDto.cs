@@ -1,14 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Hemolink.Models
+namespace Hemolink.Data.Dtos.Doador
 {
-    public class CreateDoadorDto
+    public class UpdateDoadorDto
     {
+        public int IdDoador { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public DateTime DataNascimento { get; set; }
-        
-        [DataType (DataType.EmailAddress)]
+
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public string Senha { set; get; }
         public string SangueId { set; get; }

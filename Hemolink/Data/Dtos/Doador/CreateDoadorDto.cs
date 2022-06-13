@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Hemolink
+namespace Hemolink.Data.Dtos.Doador
 {
-    public class UpdateDoadorDto
+    public class CreateDoadorDto
     {
-        public int IdDoador { get; set; }
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public DateTime DataNascimento { get; set; }

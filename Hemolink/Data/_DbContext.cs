@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hemolink.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace Hemolink.Models
+namespace Hemolink.Data
 {
-    public class _DbContext:DbContext
+    public class _DbContext : DbContext
     {
         public _DbContext(DbContextOptions<_DbContext> options) : base(options)
         { }

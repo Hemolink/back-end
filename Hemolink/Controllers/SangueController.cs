@@ -1,4 +1,5 @@
-﻿using Hemolink.Models;
+﻿using Hemolink.Data;
+using Hemolink.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

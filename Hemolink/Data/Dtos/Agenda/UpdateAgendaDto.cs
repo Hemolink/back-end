@@ -1,4 +1,4 @@
-﻿namespace Hemolink
+﻿namespace Hemolink.Data.Dtos.Agenda
 {
     public class UpdateAgendaDto
     {

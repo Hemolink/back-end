@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hemolink.Models;
+using Hemolink.Data;
+using Hemolink.Data.Dtos.Doador;
 
 namespace Hemolink.Controllers
 {
