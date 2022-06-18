@@ -46,6 +46,31 @@ namespace Hemolink.Controllers
             return doador;
         }
 
+        // GET: api/Doador/e/sguedes46@gmail.com
+        [HttpGet("e/{email}")]
+        public async Task<ActionResult<LoginDto>> GetDoadorByEmail(string email)
+        {
+          if (_context.doador == null)
+          {
+              return NotFound("Doador not found...");
+          }
+            var doador = await _context.doador.FirstOrDefaultAsync(d => d.Email == email);
+
+            if (doador == null)
+            {
+                return NotFound("Doador not found...");
+            }
+            LoginDto Doador = new LoginDto
+            {
+                Email = doador.Email,
+                Senha = doador.Senha
+            };
+
+
+
+            return Doador;
+        }
+
         // PUT: api/Doador/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
