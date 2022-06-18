@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 
 namespace Hemolink.Models
 {
+    [Index(nameof(Email), IsUnique = true)]
     public class Doador
     {
         [Key]
@@ -11,7 +13,7 @@ namespace Hemolink.Models
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
         public DateTime DataNascimento { get; set; }
-        
+
         [DataType (DataType.EmailAddress)]
         public string Email { get; set; }
         
