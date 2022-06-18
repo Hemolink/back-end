@@ -46,6 +46,27 @@ namespace Hemolink.Controllers
             return doador;
         }
 
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<Doador>> GetDoadorByEmail(string email)
+        {
+            if (_context.doador == null)
+            {
+                return NotFound("Doador not found...");
+            }
+            var doador = await _context.doador.FirstOrDefaultAsync(d => d.Email == email);
+
+            if (doador == null)
+            {
+                return NotFound("Doador not found...");
+            }
+
+            return doador;
+        }
+
+
+
+
+
         // PUT: api/Doador/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

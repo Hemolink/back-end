@@ -26,21 +26,22 @@ namespace Hemolink.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Agenda>>> Getagenda()
         {
-          if (_context.agenda == null)
-          {
-              return NotFound("There is no appointments...");
-          }
+            if (_context.agenda == null)
+            {
+                return NotFound("There is no appointments...");
+            }
             return await _context.agenda.ToListAsync();
         }
+
 
         // GET: api/Agenda/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Agenda>> GetAgenda(int id)
         {
-          if (_context.agenda == null)
-          {
-              return NotFound("Appointment not found... ");
-          }
+            if (_context.agenda == null)
+            {
+                return NotFound("Appointment not found... ");
+            }
             var agenda = await _context.agenda.FindAsync(id);
 
             if (agenda == null)
@@ -113,6 +114,11 @@ namespace Hemolink.Controllers
                 Agendamento = request.Agendamento,
                 Doador = doador,
             };
+
+            if (newAgenda.Agendamento.Minute % 15 != 0)
+            {
+                return BadRequest("Agendamento só aceita horas terminadas em 0, 15, 30 e 45 minutos...");
+            }
 
             if (_context.agenda == null)
             {
