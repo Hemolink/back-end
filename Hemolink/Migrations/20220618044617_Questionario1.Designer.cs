@@ -3,6 +3,7 @@ using System;
 using Hemolink.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hemolink.Migrations
 {
     [DbContext(typeof(_DbContext))]
-    partial class _DbContextModelSnapshot : ModelSnapshot
+    [Migration("20220618044617_Questionario1")]
+    partial class Questionario1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -214,7 +216,7 @@ namespace Hemolink.Migrations
                     b.Property<bool>("IST")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("Id_Doador")
+                    b.Property<int>("Id_DoadorIdDoador")
                         .HasColumnType("integer");
 
                     b.Property<bool>("JaFoiPreso")
@@ -226,10 +228,9 @@ namespace Hemolink.Migrations
                     b.Property<bool>("Leucemia")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Observacoes")
-                        .IsRequired()
+                    b.Property<bool>("Observacoes")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ParceirosSexuais")
                         .HasColumnType("integer");
@@ -314,6 +315,8 @@ namespace Hemolink.Migrations
 
                     b.HasIndex("DoadorIdDoador");
 
+                    b.HasIndex("Id_DoadorIdDoador");
+
                     b.ToTable("questionario");
                 });
 
@@ -367,7 +370,15 @@ namespace Hemolink.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Hemolink.Models.Doador", "Id_Doador")
+                        .WithMany()
+                        .HasForeignKey("Id_DoadorIdDoador")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Doador");
+
+                    b.Navigation("Id_Doador");
                 });
 #pragma warning restore 612, 618
         }

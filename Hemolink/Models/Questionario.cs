@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Hemolink.Models
 {
@@ -6,7 +7,9 @@ namespace Hemolink.Models
     {
         [Key]
         public int IdFormulario { get; set; }
-        public Doador Id_Doador { get; set; }
+        [JsonIgnore]
+        public Doador Doador { get; set; }
+        public int Id_Doador { get; set; }
         public DateTime DataPreenchimento { get; set; } = DateTime.Now;
         public bool BebidaAlcolica { get; set; }
         public bool ResfriadoGripado { get; set; }
@@ -71,11 +74,7 @@ namespace Hemolink.Models
         public bool Fuma { get; set; } 
         public bool SuspeitaCovid { get; set; }
         [MaxLength (500)]
-        public bool Observacoes { get; set; } 
-
-
-
-
+        public string Observacoes { get; set; } 
 
     }
 }

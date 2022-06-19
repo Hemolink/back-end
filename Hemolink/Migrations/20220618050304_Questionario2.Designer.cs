@@ -3,6 +3,7 @@ using System;
 using Hemolink.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hemolink.Migrations
 {
     [DbContext(typeof(_DbContext))]
-    partial class _DbContextModelSnapshot : ModelSnapshot
+    [Migration("20220618050304_Questionario2")]
+    partial class Questionario2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,10 +228,9 @@ namespace Hemolink.Migrations
                     b.Property<bool>("Leucemia")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Observacoes")
-                        .IsRequired()
+                    b.Property<bool>("Observacoes")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ParceirosSexuais")
                         .HasColumnType("integer");

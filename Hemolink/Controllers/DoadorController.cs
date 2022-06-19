@@ -62,7 +62,7 @@ namespace Hemolink.Controllers
             }
             LoginDto Doador = new LoginDto
             {
-                Email = doador.Email,
+                IdDoador = doador.IdDoador,
                 Senha = doador.Senha
             };
 
