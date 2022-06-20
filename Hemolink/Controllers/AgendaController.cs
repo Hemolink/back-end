@@ -33,6 +33,34 @@ namespace Hemolink.Controllers
             return await _context.agenda.ToListAsync();
         }
 
+        [HttpGet("{ano}/{mes}/{dia}")]
+        public async Task<ActionResult<List<Agenda>>> GetAgendaByDate(int ano, int mes, int dia)
+        {
+            if (_context.agenda == null)
+            {
+                return NotFound("There is no appointments...");
+            }
+
+            var agenda = await _context.agenda.Where(a => a.Agendamento.Year == ano && a.Agendamento.Month == mes && a.Agendamento.Day == dia).ToListAsync();
+
+            return agenda;
+        }
+
+        // Retornar todos os horarios que estao disponiveis para o dia e horario passados como parametro
+        [HttpGet("{ano}/{mes}/{dia}/{hora}/{minuto}")]
+        public async Task<ActionResult<List<Agenda>>> GetAgendaByDateAndHour(int ano, int mes, int dia, int hora, int minuto)
+        {
+            if (_context.agenda == null)
+            {
+                return NotFound("There is no appointments...");
+            }
+
+            var agenda = await _context.agenda.Where(a => a.Agendamento.Year == ano && a.Agendamento.Month == mes && a.Agendamento.Day == dia && a.Agendamento.Hour == hora && a.Agendamento.Minute == minuto).ToListAsync();
+
+
+            return agenda;
+        }
+        
 
         // GET: api/Agenda/5
         [HttpGet("{id}")]
