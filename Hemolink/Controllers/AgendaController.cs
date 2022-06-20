@@ -22,116 +22,35 @@ namespace Hemolink.Controllers
             _context = context;
         }
 
-        // GET: api/Agenda
         [HttpGet]
-        public async Task<ActionResult<List<Agenda>>> Getagenda()
+        public ActionResult<List<DateTime>> GetAvailableHours(DateTime? date)
         {
             if (_context.agenda == null)
-            {
                 return NotFound("There is no appointments...");
-            }
-            return await _context.agenda.ToListAsync();
+
+            if (!date.HasValue)
+                date = DateTime.Today;
+
+            const int startHour = 8;
+            const int hourSpan = 9;
+
+            var allPossibleTimes = Enumerable.Range(startHour, hourSpan)
+                                             .Select(hour => date.Value.AddHours(hour))
+                                             .SelectMany(d => Enumerable.Range(0, 4)
+                                                                        .Select(min => d.AddMinutes(15 * min)))
+                                             .ToList();
+
+            var busyTimes = _context.agenda.Where(a => a.Agendamento.Date == date.Value.Date)
+                                           .Select(a => a.Agendamento.ToLocalTime());
+
+            var availableTimes = allPossibleTimes.Except(busyTimes).ToList();
+
+            return availableTimes;
         }
 
-        [HttpGet("{ano}/{mes}/{dia}")]
-        public async Task<ActionResult<List<Agenda>>> GetAgendaByDate(int ano, int mes, int dia)
-        {
-            if (_context.agenda == null)
-            {
-                return NotFound("There is no appointments...");
-            }
-
-            var agenda = await _context.agenda.Where(a => a.Agendamento.Year == ano && a.Agendamento.Month == mes && a.Agendamento.Day == dia).ToListAsync();
-
-            return agenda;
-        }
-
-        // Retornar todos os horarios que estao disponiveis para o dia e horario passados como parametro
-        [HttpGet("{ano}/{mes}/{dia}/{hora}/{minuto}")]
-        public async Task<ActionResult<List<Agenda>>> GetAgendaByDateAndHour(int ano, int mes, int dia, int hora, int minuto)
-        {
-            if (_context.agenda == null)
-            {
-                return NotFound("There is no appointments...");
-            }
-
-            var agenda = await _context.agenda.Where(a => a.Agendamento.Year == ano && a.Agendamento.Month == mes && a.Agendamento.Day == dia && a.Agendamento.Hour == hora && a.Agendamento.Minute == minuto).ToListAsync();
-
-
-            return agenda;
-        }
-        
-
-        // GET: api/Agenda/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Agenda>> GetAgenda(int id)
-        {
-            if (_context.agenda == null)
-            {
-                return NotFound("Appointment not found... ");
-            }
-            var agenda = await _context.agenda.FindAsync(id);
-
-            if (agenda == null)
-            {
-                return NotFound();
-            }
-
-            return agenda;
-        }
-
-        // PUT: api/Agenda/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<ActionResult> PutAgenda(int id, UpdateAgendaDto request)
-        {
-            var doador = await _context.doador.FindAsync(request.DoadorId);
-            if (doador == null)
-                return NotFound("Doador not found...");
-
-
-            var newAgenda = new Agenda
-            {
-                IdAgendamento = request.IdAgendamento,
-                DoadorId = request.DoadorId,
-                Agendamento = request.Agendamento,
-                Doador = doador,
-            };
-
-
-            if (id != newAgenda.IdAgendamento)
-            {
-                return BadRequest($"The id {id} is not the same on the JSON {newAgenda.IdAgendamento}...");
-            }
-
-
-            _context.Entry(newAgenda).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AgendaExists(id))
-                {
-                    return NotFound("Appointment not found... ");
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return Ok(newAgenda);
-        }
-
-        // POST: api/Agenda
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<Agenda>> PostAgenda(CreateAgendaDto request)
         {
-
             var doador = await _context.doador.FindAsync(request.DoadorId);
             if (doador == null)
                 return NotFound("Doador not found...");
@@ -155,10 +74,9 @@ namespace Hemolink.Controllers
             _context.agenda.Add(newAgenda);
             await _context.SaveChangesAsync();
 
-            return Ok(newAgenda);
+            return NoContent();
         }
 
-        // DELETE: api/Agenda/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteAgenda(int id)
         {
@@ -176,11 +94,6 @@ namespace Hemolink.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("Appontment succesfully deleted :) ");
-        }
-
-        private bool AgendaExists(int id)
-        {
-            return (_context.agenda?.Any(e => e.IdAgendamento == id)).GetValueOrDefault();
         }
     }
 }
