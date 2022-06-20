@@ -64,7 +64,7 @@ namespace Hemolink.Controllers
             {
                 IdDoador = doador.IdDoador,
                 Senha = doador.Senha,
-                Nome = doador.Nome
+                Nome = doador.Nome + " " + doador.Sobrenome
             };
 
 
