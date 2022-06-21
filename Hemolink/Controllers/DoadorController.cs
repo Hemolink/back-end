@@ -84,7 +84,7 @@ namespace Hemolink.Controllers
 
             var doador = new Doador
             {
-                IdDoador = request.IdDoador,
+                IdDoador = request.IdDoador,           
                 Nome = request.Nome,
                 Sobrenome = request.Sobrenome,
                 DataNascimento = request.DataNascimento,
