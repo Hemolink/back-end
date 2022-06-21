@@ -36,8 +36,8 @@ namespace Hemolink.Controllers
 
             var allPossibleTimes = Enumerable.Range(startHour, hourSpan)
                                              .Select(hour => date.Value.AddHours(hour))
-                                             .SelectMany(d => Enumerable.Range(0, 4)
-                                                                        .Select(min => d.AddMinutes(15 * min)))
+                                             .SelectMany(d => Enumerable.Range(0, 2)
+                                                                        .Select(min => d.AddMinutes(30 * min)))
                                              .ToList();
 
             var busyTimes = _context.agenda.Where(a => a.Agendamento.Date == date.Value.Date)
