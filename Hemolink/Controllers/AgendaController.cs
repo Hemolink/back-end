@@ -30,6 +30,8 @@ namespace Hemolink.Controllers
 
             if (!date.HasValue)
                 date = DateTime.Today;
+            else
+                date = date.Value.ToLocalTime().Date;
 
             const int startHour = 8;
             const int hourSpan = 9;
