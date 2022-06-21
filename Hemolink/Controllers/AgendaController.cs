@@ -60,7 +60,7 @@ namespace Hemolink.Controllers
             var newAgenda = new Agenda
             {
                 DoadorId = request.DoadorId,
-                Agendamento = request.Agendamento,
+                Agendamento = request.Agendamento.ToLocalTime(),
                 Doador = doador,
             };
 
